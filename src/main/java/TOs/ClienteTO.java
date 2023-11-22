@@ -1,22 +1,23 @@
 package TOs;
 
+import java.time.LocalDate;
+
 public class ClienteTO {
     private int IdCliente;
     private int Cedula;
     private String Nombre;
-    private String Mensualidad;
+    private LocalDate Mensualidad;
 
-    public ClienteTO(int IdCliente, int Cedula, String Nombre, String Mensualidad) {
-        this.IdCliente = IdCliente;
+    public ClienteTO(int Cedula, String Nombre, LocalDate Mensualidad) {
         this.Cedula = Cedula;
         this.Nombre = Nombre;
         this.Mensualidad = Mensualidad;
     }
-    
-    public ClienteTO(){
-    
+
+    public ClienteTO() {
+
     }
-    
+
     public int getIdCliente() {
         return IdCliente;
     }
@@ -41,12 +42,12 @@ public class ClienteTO {
         this.Nombre = Nombre;
     }
 
-    public String getMensualidad() {
+    public LocalDate getMensualidad() {
         return Mensualidad;
     }
 
-    public void setMensualidad(String Mensualidad) {
+    public void setMensualidad(LocalDate Mensualidad) {
         this.Mensualidad = Mensualidad;
     }
-    
+
 }

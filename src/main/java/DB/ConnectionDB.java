@@ -49,7 +49,7 @@ public class ConnectionDB {
         }
     }
 
-    public boolean exexute(String query){
+    public boolean execute(String query){
         try {
             statement = connection.createStatement();
             boolean complete = statement.execute(query);
