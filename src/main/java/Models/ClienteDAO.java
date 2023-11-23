@@ -18,19 +18,19 @@ public class ClienteDAO {
   // --> Mostrar la lista de clientes
   // --> Renovar o agregar mensualidad
 
-  public ArrayList<Map<String, String>> listar(boolean mensualidad) {
-    String query;
+  private ArrayList<Map<String, String>> consultar(boolean mensualidad) {
+    StringBuffer query = new StringBuffer();
     LocalDate fecha = LocalDate.now().minusMonths(1);
 
     if (mensualidad) {
-      query = "select * from Cliente";
+      query.append("select * from Cliente");
     } else {
-      query = "select * from Cliente where Mensualidad > '" + fecha.format(DateTimeFormatter.ISO_DATE) + "'";
-      System.out.println(query);
+      query.append("select * from Cliente where Mensualidad > '");
+      query.append(fecha.format(DateTimeFormatter.ISO_DATE)).append("' ");
     }
 
     ConnectionDB connection = new ConnectionDB();
-    ResultSet result = connection.consult(query);
+    ResultSet result = connection.consult(query.toString());
     ArrayList<Map<String, String>> data = new ArrayList<>();
 
     try {
@@ -53,20 +53,55 @@ public class ClienteDAO {
     return data;
   }
 
-  public void crearCliente(int cedula, String nombre, boolean mensualidad) {
-      String fechaActual = "ninguna";
+  public ArrayList<Map<String, String>> listar() {
+      return consultar(true);
+  }
 
-      if (mensualidad) {
-          fechaActual = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
-      }
+  public ArrayList<Map<String, String>> listarMensualidad() {
+    return consultar(false);
+  }
+
+  public void crearCliente(int cedula, String nombre, boolean mensualidad) {
+      LocalDate fechaActual;
+      fechaActual = LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
 
       StringBuffer query = new StringBuffer();
-      query.append("insert into Cliente(Cedula, Nombre, Mensualidad) values(");
-      query.append(cedula + ",");
-      query.append("'" + nombre + "',");
-      query.append(" '" + fechaActual + "')");
+      if (mensualidad) query.append("insert into Cliente(Cedula, Nombre, Mensualidad) values(");
+      if (!mensualidad) query.append("insert into Cliente(Cedula, Nombre) values(");
+      query.append(cedula).append(",");
+      query.append("'").append(nombre).append("'");
+      if (mensualidad) query.append(", '").append(fechaActual).append("'");
+      query.append(")");
+
+      ConnectionDB connection = new ConnectionDB();
+      connection.execute(query.toString());
+      connection.closeConnection();
+  }
+
+  public void renovarMensualidad (int cedula) {
+      LocalDate fechaActual;
+      fechaActual = LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+
+      StringBuffer query = new StringBuffer();
+      query.append("update Cliente set Mensualidad = '").append(fechaActual).append("' ");
+      query.append("where Cedula = ").append(cedula);
 
       ConnectionDB connection = new ConnectionDB();
       connection.execute(query.toString());
   }
+
+  public void eliminarCliente (int cedula) {
+      String query = "delete from Cliente where Cedula = " + cedula;
+      ConnectionDB connection = new ConnectionDB();
+      connection.execute(query);
+      connection.closeConnection();
+  }
 }
+
+
+
+
+
+
+
+

@@ -28,6 +28,7 @@ public class ConnectionDB {
         if (connection != null) {
             try {
                 connection.close();
+                System.out.println("Conexion cerrada con exito");
             } catch (SQLException ex) {
                 System.out.println("error al cerrar la conexion: " + ex.getMessage());
             }
@@ -52,8 +53,7 @@ public class ConnectionDB {
     public boolean execute(String query){
         try {
             statement = connection.createStatement();
-            boolean complete = statement.execute(query);
-            return complete;
+            return statement.execute(query);
         } catch (SQLException ex) {
             System.out.println("error al realizar la consulta: " + ex.getMessage());
             return false;
