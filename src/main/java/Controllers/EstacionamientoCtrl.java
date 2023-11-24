@@ -1,6 +1,7 @@
 package Controllers;
 
 import Models.EstacionamientoDAO;
+import TOs.EstacionamientoTO;
 
 import java.sql.Array;
 import java.sql.ResultSet;
@@ -12,18 +13,18 @@ import java.util.Map;
 public class EstacionamientoCtrl {
     EstacionamientoDAO estacionamiento = new EstacionamientoDAO();
 
-    private ArrayList<Map<String, String>> listar(boolean ocupado) {
+    private ArrayList<EstacionamientoTO> listar(boolean ocupado) {
         ResultSet data = estacionamiento.listar(ocupado);
-        ArrayList<Map<String, String>> estacionamientos = new ArrayList<>();
+        ArrayList<EstacionamientoTO> estacionamientos = new ArrayList<>();
 
         try {
             while (data.next()) {
-                Map<String, String> table = new HashMap<>();
-                table.put("id", data.getString("IdEstacionamiento"));
-                table.put("numero", data.getString("Numero"));
-                table.put("estado", data.getString("Ocupado"));
+                EstacionamientoTO estacionamientoTO = new EstacionamientoTO();
+                estacionamientoTO.setIdEstacionamiento(data.getInt("IdEstacionamiento"));
+                estacionamientoTO.setNumero(data.getInt("Numero"));
+                estacionamientoTO.setEstado(data.getInt("Ocupado") == 1);
 
-                estacionamientos.add(table);
+                estacionamientos.add(estacionamientoTO);
             }
         } catch (SQLException ex) {
             System.out.println("Error al listar los estacionamientos: " + ex.getMessage());
@@ -32,11 +33,11 @@ public class EstacionamientoCtrl {
         return estacionamientos;
     }
 
-    public ArrayList<Map<String, String>> estacionamientosVacios() {
+    public ArrayList<EstacionamientoTO> estacionamientosVacios() {
         return listar(false);
     }
 
-    public ArrayList<Map<String, String>> estacionamientosOcupados() {
+    public ArrayList<EstacionamientoTO> estacionamientosOcupados() {
         return listar(true);
     }
 

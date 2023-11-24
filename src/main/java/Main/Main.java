@@ -1,30 +1,34 @@
 package Main;
 
+import Controllers.ClienteCtrl;
 import Models.ClienteDAO;
 import Models.EstacionamientoDAO;
+import Models.FacturaDAO;
+import TOs.ClienteTO;
+import TOs.FacturaTO;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.ArrayList;
 
 public class Main {
   public static void main(String[] args) {
-    ClienteDAO cliente = new ClienteDAO();
-      EstacionamientoDAO estacionamiento = new EstacionamientoDAO();
+      ClienteCtrl cliente = new ClienteCtrl();
 
-    // cliente.crearCliente(1234567899, "Alberto", false);
-    // cliente.crearCliente(1234567890, "Jaimito", true);
-    // cliente.eliminarCliente(1234567899);
-
-      ArrayList<Map<String, String>> result = cliente.listar();
-
-      for (Map<String, String> data : result) {
-          System.out.println("id: " + data.get("id"));
-          System.out.println("cedula: " + data.get("cedula"));
-          System.out.println("nombre: " + data.get("nombre"));
-          System.out.println("mensualidad: " + data.get("mensualidad") + "\n");
+      for (ClienteTO clienteTO : cliente.listar()) {
+          System.out.println("id: " + clienteTO.getIdCliente());
+          System.out.println("nombre: " + clienteTO.getNombre());
+          System.out.println("cedula: " + clienteTO.getCedula());
+          System.out.println("mensualidad: " + clienteTO.getMensualidad() + "\n");
       }
 
-      estacionamiento.eliminarEstacionamiento(5);
-      System.out.println(estacionamiento.estacionamientosVacios());
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+      LocalDateTime fechaAhora = LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter);
+      System.out.println(LocalDateTime.now().format(formatter));
+      System.out.println(fechaAhora);
+
+      FacturaDAO factura = new FacturaDAO();
+      factura.crearHoraEntrada();
   }
 }

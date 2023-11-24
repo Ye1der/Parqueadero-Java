@@ -1,15 +1,18 @@
 package TOs;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class FacturaTO {
     private int IdFactura;
     private double Precio;
-    private String FechaEntrada;
-    private String FechaSalida;
+    private LocalDateTime FechaEntrada;
+    private LocalDateTime FechaSalida;
     private int IdCliente;
     private int IdVehiculo;
     private int IdEstacionamiento;
 
-    public FacturaTO(int IdFactura, double Precio, String FechaEntrada, String FechaSalida, int IdCliente, int IdVehiculo, int IdEstacionamiento) {
+    public FacturaTO(int IdFactura, double Precio, LocalDateTime FechaEntrada, LocalDateTime FechaSalida, int IdCliente, int IdVehiculo, int IdEstacionamiento) {
         this.IdFactura = IdFactura;
         this.Precio = Precio;
         this.FechaEntrada = FechaEntrada;
@@ -39,19 +42,19 @@ public class FacturaTO {
         this.Precio = Precio;
     }
 
-    public String getFechaEntrada() {
+    public LocalDateTime getFechaEntrada() {
         return FechaEntrada;
     }
 
-    public void setFechaEntrada(String FechaEntrada) {
+    public void setFechaEntrada(LocalDateTime FechaEntrada) {
         this.FechaEntrada = FechaEntrada;
     }
 
-    public String getFechaSalida() {
+    public LocalDateTime getFechaSalida() {
         return FechaSalida;
     }
 
-    public void setFechaSalida(String FechaSalida) {
+    public void setFechaSalida(LocalDateTime FechaSalida) {
         this.FechaSalida = FechaSalida;
     }
 
