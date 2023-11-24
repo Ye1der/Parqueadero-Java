@@ -18,7 +18,7 @@ public class ClienteDAO {
   // --> Mostrar la lista de clientes
   // --> Renovar o agregar mensualidad
 
-  private ArrayList<Map<String, String>> consultar(boolean mensualidad) {
+  public ResultSet consultar(boolean mensualidad) {
     StringBuffer query = new StringBuffer();
     LocalDate fecha = LocalDate.now().minusMonths(1);
 
@@ -30,35 +30,7 @@ public class ClienteDAO {
     }
 
     ConnectionDB connection = new ConnectionDB();
-    ResultSet result = connection.consult(query.toString());
-    ArrayList<Map<String, String>> data = new ArrayList<>();
-
-    try {
-      while (result.next()) {
-        Map<String, String> mapa = new HashMap<>();
-
-        mapa.put("id", result.getString("IdCliente"));
-        mapa.put("cedula", result.getString("Cedula"));
-        mapa.put("nombre", result.getString("Nombre"));
-        mapa.put("mensualidad", result.getString("Mensualidad"));
-
-        data.add(mapa);
-      }
-      connection.closeConnection();
-
-    } catch (SQLException ex) {
-      System.out.println("error al cargar los datos" + ex.getMessage());
-    }
-
-    return data;
-  }
-
-  public ArrayList<Map<String, String>> listar() {
-      return consultar(true);
-  }
-
-  public ArrayList<Map<String, String>> listarMensualidad() {
-    return consultar(false);
+    return connection.consult(query.toString());
   }
 
   public void crearCliente(int cedula, String nombre, boolean mensualidad) {

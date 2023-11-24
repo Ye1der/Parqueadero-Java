@@ -23,7 +23,8 @@ public class Main {
           System.out.println("nombre: " + data.get("nombre"));
           System.out.println("mensualidad: " + data.get("mensualidad") + "\n");
       }
-      
-      estacionamiento.vaciar();
+
+      estacionamiento.eliminarEstacionamiento(5);
+      System.out.println(estacionamiento.estacionamientosVacios());
   }
 }
