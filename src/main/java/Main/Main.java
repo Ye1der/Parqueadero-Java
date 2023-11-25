@@ -1,15 +1,15 @@
 package Main;
 
 import Controllers.ClienteCtrl;
+import Controllers.VehiculoCtrl;
 import Models.ClienteDAO;
 import Models.EstacionamientoDAO;
-<<<<<<< HEAD
+
 import Models.VehiculoDAO;
-=======
 import Models.FacturaDAO;
 import TOs.ClienteTO;
 import TOs.FacturaTO;
->>>>>>> dev-Y
+import TOs.VehiculoTO;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,8 +19,8 @@ import java.util.Scanner;
 
 public class Main {
   public static void main(String[] args) {
-<<<<<<< HEAD
-    ClienteDAO cliente = new ClienteDAO();
+
+    /*ClienteDAO cliente = new ClienteDAO();*/
     EstacionamientoDAO estacionamiento = new EstacionamientoDAO();
     VehiculoDAO vehiculo = new VehiculoDAO();
     Scanner entrada = new Scanner(System.in);
@@ -41,11 +41,22 @@ public class Main {
       //estacionamiento.eliminarEstacionamiento(5);
       //System.out.println(estacionamiento.estacionamientosVacios());
       
-      System.out.println(vehiculo.Listar());
+      VehiculoCtrl vehiculos = new VehiculoCtrl();
+
+      for (VehiculoTO VehiculoTO : vehiculo.ListarVehiculo()) {
+          System.out.println("id: " + VehiculoTO.getIdVehiculo());
+          System.out.println("placa" + VehiculoTO.getPlaca());
+          System.out.println("Modelo" + VehiculoTO.getModelo());
+          System.out.println("Color" + VehiculoTO.getColor());
+          System.out.println("tipo" );
+      }
+      
+      System.out.println(vehiculo.ListarVehiculo());
       System.out.println("Ingrese la Placa");
       String Placa = entrada.next();
       System.out.println(vehiculo.BuscarxPlaca(Placa));
-=======
+
+      
       ClienteCtrl cliente = new ClienteCtrl();
 
       for (ClienteTO clienteTO : cliente.listar()) {
@@ -62,6 +73,6 @@ public class Main {
 
       FacturaDAO factura = new FacturaDAO();
       factura.crearHoraEntrada();
->>>>>>> dev-Y
+
   }
 }

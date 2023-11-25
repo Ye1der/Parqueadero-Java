@@ -1,5 +1,7 @@
 package TOs;
 
+import java.time.LocalDate;
+
 public class VehiculoTO {
     private int IdVehiculo;
     private String Placa;
@@ -68,6 +70,6 @@ public class VehiculoTO {
     public void setIdCLiente(int IdCLiente) {
         this.IdCLiente = IdCLiente;
     }
-    
-    
+
+  
 }

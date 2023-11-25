@@ -3,10 +3,9 @@ package Models;
 import DB.ConnectionDB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.*;
+import TOs.VehiculoTO;
+        
 public class VehiculoDAO {
     /*Listar
       Buscar por placa
@@ -16,78 +15,94 @@ public class VehiculoDAO {
     */
     ConnectionDB connection = new ConnectionDB();
 
-    public ArrayList<Map> Listar(){
+    public ArrayList<VehiculoTO> ListarVehiculo(){
         try {
             connection = new ConnectionDB();
             String query = "select * from Vehiculo";
             ResultSet dataVehiculos = connection.consult(query);
-            ArrayList<Map> vehiculos = new ArrayList<>();
+            ArrayList<VehiculoTO> vehiculoTOs = new ArrayList<>();
             
             while(dataVehiculos.next()){
-                Map vehiculo = new HashMap();
-                vehiculo.put("IdVehiculo", dataVehiculos.getString("IdVehiculo"));
-                vehiculo.put("Placa",dataVehiculos.getString("Placa"));
-                vehiculo.put("Modelo", dataVehiculos.getString("Modelo"));
-                vehiculo.put("Color",dataVehiculos.getString("Color"));
-                vehiculo.put("Tipo",dataVehiculos.getString("Tipo"));
-                vehiculos.add(vehiculo);
+                VehiculoTO TOvehiculo = new VehiculoTO();
+                TOvehiculo.setIdVehiculo(dataVehiculos.getInt("IdVehiculo"));
+                TOvehiculo.setPlaca(dataVehiculos.getString("Placa"));
+                TOvehiculo.setModelo(dataVehiculos.getString("Modelo"));
+                TOvehiculo.setColor(dataVehiculos.getString("Color"));
+                TOvehiculo.setTipo(dataVehiculos.getString("Tipo"));
+                vehiculoTOs.add(TOvehiculo);
             }
             
             connection.closeConnection();
-            return vehiculos;
+            return vehiculoTOs;
             
         } catch (RuntimeException | SQLException ex) {
-            System.out.println("error al listar los vehiculos" + ex.getMessage());
+            System.out.println("error al listar los vehiculoTOs" + ex.getMessage());
             return null;
         }
     }
     
-    public Map BuscarxPlaca(String Placa){
+    public VehiculoTO BuscarxPlaca(String Placa){
         try {
-            Map vehiculo = new HashMap();
+            VehiculoTO TOvehiculo = new VehiculoTO();
             connection = new ConnectionDB();
             String query = "select * from Vehiculo where Placa = '"+Placa+"';";
             ResultSet dataVehiculos = connection.consult(query);
             
-            vehiculo.put("IdVehiculo", dataVehiculos.getString("IdVehiculo"));
-            vehiculo.put("Placa",dataVehiculos.getString("Placa"));
-            vehiculo.put("Modelo", dataVehiculos.getString("Modelo"));
-            vehiculo.put("Color",dataVehiculos.getString("Color"));
-            vehiculo.put("Tipo",dataVehiculos.getString("Tipo"));
+            TOvehiculo.setIdVehiculo(dataVehiculos.getInt("IdVehiculo"));
+            TOvehiculo.setPlaca(dataVehiculos.getString("Placa"));
+            TOvehiculo.setModelo(dataVehiculos.getString("Modelo"));
+            TOvehiculo.setColor(dataVehiculos.getString("Color"));
+            TOvehiculo.setTipo(dataVehiculos.getString("Tipo"));
             
             connection.closeConnection();
-            return vehiculo;
+            return TOvehiculo;
             
         } catch (RuntimeException | SQLException ex) {
-            System.out.println("error al listar los vehiculos" + ex.getMessage());
+            System.out.println("error al listar los vehiculoTOs" + ex.getMessage());
             return null;
         }
     }
     
-    /*public boolean Insertar(){
+    public boolean InsertarVehiculo(VehiculoTO vehiculoTO){
         try {
             connection = new ConnectionDB();
-            String query = "insert into Vehiculo (Placa, Modelo, Color, Tipo) values('" + ;
-            
-        } catch (Exception e) {
-        }
-    }*/
-    
-    /*public boolean Actualizar(){
-        boolean complete;
-        connection = new ConnectionDB();
-        String query = "update Vehiculo set Placa = '";
-    }*/
-    
-    public void EliminarVehiculo(String Placa){
-        try {
-        connection = new ConnectionDB();
-        String query = "delete from Vehiculo where Placa = '"+Placa+"';";
-        connection.execute(query);
-        connection.closeConnection();
+            String query = "insert into Vehiculo (Placa, Modelo, Color, Tipo) values('" + vehiculoTO.getPlaca() + 
+                    "', '" + vehiculoTO.getModelo() + "', '" + vehiculoTO.getColor() + "', '" + vehiculoTO.getTipo() + "';" ;
+            return connection.execute(query);
             
         } catch (RuntimeException ex) {
-            System.out.println("error al eliminar el vehiculo" + ex.getMessage());
+            System.out.println("Error al insertar en la DB" + ex.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean ActualizarVehiculo(VehiculoTO vehiculoTO){
+        try {
+            boolean complete;
+            connection = new ConnectionDB();
+            String query = "update Vehiculo set Placa = '" + vehiculoTO.getPlaca() + "', Modelo = '" + vehiculoTO.getModelo()+
+                "', Color = '" + vehiculoTO.getColor() + "', Tipo = '" + vehiculoTO.getTipo();
+            complete = connection.execute(query);
+            connection.closeConnection();
+            return complete;
+        
+        } catch (RuntimeException ex) {
+            System.out.println("Error al actualizar en la DB" + ex.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean EliminarVehiculo(String Placa){
+        try {
+            boolean complete;
+            connection = new ConnectionDB();
+            String query = "delete from Vehiculo where Placa = '"+Placa+"';";
+            complete = connection.execute(query);
+            connection.closeConnection();
+            return complete;
+        } catch (RuntimeException ex) {
+            System.out.println("error al eliminar el vehiculoTO" + ex.getMessage());
+            return false;
         }
     }
 }
