@@ -22,7 +22,7 @@ public class ClienteDAO {
     StringBuffer query = new StringBuffer();
     LocalDate fecha = LocalDate.now().minusMonths(1);
 
-    if (mensualidad) {
+    if (!mensualidad) {
       query.append("select * from Cliente");
     } else {
       query.append("select * from Cliente where Mensualidad > '");
@@ -33,16 +33,18 @@ public class ClienteDAO {
     return connection.consult(query.toString());
   }
 
-  public void crearCliente(int cedula, String nombre, boolean mensualidad) {
+  public void crearCliente(ClienteTO cliente) {
       LocalDate fechaActual;
       fechaActual = LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
 
       StringBuffer query = new StringBuffer();
-      if (mensualidad) query.append("insert into Cliente(Cedula, Nombre, Mensualidad) values(");
-      if (!mensualidad) query.append("insert into Cliente(Cedula, Nombre) values(");
-      query.append(cedula).append(",");
-      query.append("'").append(nombre).append("'");
-      if (mensualidad) query.append(", '").append(fechaActual).append("'");
+      if (cliente.getMensualidad() != null) query.append("insert into Cliente(Cedula, Nombre, Mensualidad) values(");
+      if (cliente.getMensualidad() == null) query.append("insert into Cliente(Cedula, Nombre) values(");
+
+      query.append(cliente.getCedula()).append(",");
+      query.append("'").append(cliente.getNombre()).append("'");
+
+      if (cliente.getMensualidad() != null) query.append(", '").append(fechaActual).append("'");
       query.append(")");
 
       ConnectionDB connection = new ConnectionDB();

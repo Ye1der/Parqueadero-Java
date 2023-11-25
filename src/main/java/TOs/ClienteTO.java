@@ -6,7 +6,7 @@ public class ClienteTO {
     private int IdCliente;
     private int Cedula;
     private String Nombre;
-    private LocalDate Mensualidad;
+    private LocalDate Mensualidad = null;
 
     public ClienteTO(int Cedula, String Nombre, LocalDate Mensualidad) {
         this.Cedula = Cedula;
@@ -49,5 +49,4 @@ public class ClienteTO {
     public void setMensualidad(LocalDate Mensualidad) {
         this.Mensualidad = Mensualidad;
     }
-
 }
