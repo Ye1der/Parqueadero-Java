@@ -1,9 +1,11 @@
 package Controllers;
 
 import Models.ClienteDAO;
+import TOs.ClienteTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,20 +13,25 @@ import java.util.Map;
 public class ClienteCtrl {
     ClienteDAO cliente = new ClienteDAO();
 
-    private ArrayList<Map<String, String>> consultar(boolean mensualidad) {
+    private ArrayList<ClienteTO> consultar(boolean mensualidad) {
         ResultSet data = cliente.consultar(mensualidad);
-        ArrayList<Map<String, String>> clientes = new ArrayList<>();
+        ArrayList<ClienteTO> clientes = new ArrayList<>();
 
         try {
             while (data.next()) {
-                Map<String, String> mapa = new HashMap<>();
+                ClienteTO clienteTO = new ClienteTO();
 
-                mapa.put("id", data.getString("IdCliente"));
-                mapa.put("cedula", data.getString("Cedula"));
-                mapa.put("nombre", data.getString("Nombre"));
-                mapa.put("mensualidad", data.getString("Mensualidad"));
+                clienteTO.setIdCliente(data.getInt("IdCliente"));
+                clienteTO.setCedula(data.getInt("Cedula"));
+                clienteTO.setNombre(data.getString("Nombre"));
 
-                clientes.add(mapa);
+                if (data.getString("Mensualidad") != null) {
+                    clienteTO.setMensualidad(LocalDate.parse(data.getString("Mensualidad")));
+                } else {
+                    clienteTO.setMensualidad(null);
+                }
+
+                clientes.add(clienteTO);
             }
 
         } catch (SQLException ex) {
@@ -34,16 +41,16 @@ public class ClienteCtrl {
         return clientes;
     }
 
-    public ArrayList<Map<String, String>> listar(){
+    public ArrayList<ClienteTO> listar(){
         return consultar(false);
     }
 
-    public ArrayList<Map<String, String>> listarMensualidad() {
+    public ArrayList<ClienteTO> listarMensualidad() {
         return consultar(true);
     }
 
-    public void crearCliente(int cedula, String nombre, boolean mensualidad){
-        cliente.crearCliente(cedula, nombre, mensualidad);
+    public void crearCliente(ClienteTO clienteTO){
+        cliente.crearCliente(clienteTO);
     }
 
     public void renovarMensualidad(int cedula) {

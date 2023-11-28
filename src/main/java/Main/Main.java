@@ -1,15 +1,25 @@
 package Main;
 
+import Controllers.ClienteCtrl;
 import Models.ClienteDAO;
 import Models.EstacionamientoDAO;
+<<<<<<< HEAD
 import Models.VehiculoDAO;
+=======
+import Models.FacturaDAO;
+import TOs.ClienteTO;
+import TOs.FacturaTO;
+>>>>>>> dev-Y
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
   public static void main(String[] args) {
+<<<<<<< HEAD
     ClienteDAO cliente = new ClienteDAO();
     EstacionamientoDAO estacionamiento = new EstacionamientoDAO();
     VehiculoDAO vehiculo = new VehiculoDAO();
@@ -35,5 +45,10 @@ public class Main {
       System.out.println("Ingrese la Placa");
       String Placa = entrada.next();
       System.out.println(vehiculo.BuscarxPlaca(Placa));
+=======
+      FacturaDAO factura = new FacturaDAO();
+      // factura.crearHoraEntrada("XYZ-123");
+      factura.generarFactura("XYZ-123");
+>>>>>>> dev-Y
   }
 }

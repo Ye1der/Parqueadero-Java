@@ -3,9 +3,9 @@ package TOs;
 public class EstacionamientoTO {
     private int IdEstacionamiento;
     private int Numero;
-    private String Estado;
+    private boolean Estado;
 
-    public EstacionamientoTO(int IdEstacionamiento, int Numero, String Estado) {
+    public EstacionamientoTO(int IdEstacionamiento, int Numero, boolean Estado) {
         this.IdEstacionamiento = IdEstacionamiento;
         this.Numero = Numero;
         this.Estado = Estado;
@@ -31,11 +31,11 @@ public class EstacionamientoTO {
         this.Numero = Numero;
     }
 
-    public String getEstado() {
+    public boolean getEstado() {
         return Estado;
     }
 
-    public void setEstado(String Estado) {
+    public void setEstado(boolean Estado) {
         this.Estado = Estado;
     }
     
