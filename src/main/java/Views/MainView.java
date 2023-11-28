@@ -4,6 +4,8 @@
  */
 package Views;
 
+import java.awt.BorderLayout;
+
 /**
  *
  * @author yeider
@@ -15,6 +17,15 @@ public class MainView extends javax.swing.JFrame {
      */
     public MainView() {
         initComponents();
+        
+        FacturaView facturaView = new FacturaView();
+        facturaView.setSize(415, 274);
+        facturaView.setLocation(0,0);
+        
+        content.removeAll();
+        content.add(facturaView, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
     }
 
     /**
@@ -43,7 +54,7 @@ public class MainView extends javax.swing.JFrame {
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 243, Short.MAX_VALUE)
+            .addGap(0, 274, Short.MAX_VALUE)
         );
 
         menu.setText("Menu");
@@ -57,6 +68,11 @@ public class MainView extends javax.swing.JFrame {
         menu.add(btnFacturas);
 
         btnClientes.setText("Clientes");
+        btnClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClientesActionPerformed(evt);
+            }
+        });
         menu.add(btnClientes);
 
         btnEstacionamientos.setText("Estacionamientos");
@@ -74,17 +90,33 @@ public class MainView extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(content, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturasActionPerformed
-        System.out.println("funciona");
+        FacturaView facturaView = new FacturaView();
+        facturaView.setSize(415, 274);
+        facturaView.setLocation(0,0);
+        
+        content.removeAll();
+        content.add(facturaView, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
     }//GEN-LAST:event_btnFacturasActionPerformed
+
+    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
+        ClienteView clienteView = new ClienteView();
+        clienteView.setSize(415, 274);
+        clienteView.setLocation(0,0);
+        
+        content.removeAll();
+        content.add(clienteView, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+    }//GEN-LAST:event_btnClientesActionPerformed
 
     /**
      * @param args the command line arguments
