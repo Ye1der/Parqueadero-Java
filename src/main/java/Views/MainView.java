@@ -19,7 +19,7 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
         
         FacturaView facturaView = new FacturaView();
-        facturaView.setSize(415, 274);
+        facturaView.setSize(415, 526);
         facturaView.setLocation(0,0);
         
         content.removeAll();
@@ -46,6 +46,8 @@ public class MainView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        content.setPreferredSize(new java.awt.Dimension(415, 526));
+
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
@@ -54,7 +56,7 @@ public class MainView extends javax.swing.JFrame {
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGap(0, 469, Short.MAX_VALUE)
         );
 
         menu.setText("Menu");
@@ -90,7 +92,7 @@ public class MainView extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(content, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
         );
 
         pack();
@@ -98,7 +100,7 @@ public class MainView extends javax.swing.JFrame {
 
     private void btnFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturasActionPerformed
         FacturaView facturaView = new FacturaView();
-        facturaView.setSize(415, 274);
+        facturaView.setSize(415, 526);
         facturaView.setLocation(0,0);
         
         content.removeAll();
@@ -109,7 +111,7 @@ public class MainView extends javax.swing.JFrame {
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         ClienteView clienteView = new ClienteView();
-        clienteView.setSize(415, 274);
+        clienteView.setSize(415, 526);
         clienteView.setLocation(0,0);
         
         content.removeAll();

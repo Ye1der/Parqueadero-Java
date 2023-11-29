@@ -4,13 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Map;
 import java.time.LocalDate;
 
 import DB.ConnectionDB;
 import TOs.ClienteTO;
-
-import java.util.HashMap;
 
 public class ClienteDAO {
 
@@ -18,19 +15,47 @@ public class ClienteDAO {
   // --> Mostrar la lista de clientes
   // --> Renovar o agregar mensualidad
 
-  public ResultSet consultar(boolean mensualidad) {
+  public ArrayList<ClienteTO> consultar (boolean mensualidad, String nombre, String cedula) {
     StringBuffer query = new StringBuffer();
     LocalDate fecha = LocalDate.now().minusMonths(1);
 
-    if (!mensualidad) {
-      query.append("select * from Cliente");
-    } else {
-      query.append("select * from Cliente where Mensualidad > '");
-      query.append(fecha.format(DateTimeFormatter.ISO_DATE)).append("' ");
+    query.append("select * from Cliente where 1 ");
+    
+    if (mensualidad) { 
+    query.append("and Mensualidad > '");
+    query.append(fecha.format(DateTimeFormatter.ISO_DATE)).append("' ");
     }
 
+    if (!nombre.equals("")) query.append("and Nombre = '").append(nombre).append("' ");
+
+    if (!cedula.equals("")) query.append("and Cedula = ").append(cedula);
+
     ConnectionDB connection = new ConnectionDB();
-    return connection.consult(query.toString());
+    ResultSet data = connection.consult(query.toString());
+    ArrayList<ClienteTO> clientes = new ArrayList<>();
+
+    try {
+      while (data.next()) {
+          ClienteTO clienteTO = new ClienteTO();
+
+          clienteTO.setIdCliente(data.getInt("IdCliente"));
+          clienteTO.setCedula(data.getInt("Cedula"));
+          clienteTO.setNombre(data.getString("Nombre"));
+
+          if (data.getString("Mensualidad") != null) {
+              clienteTO.setMensualidad(LocalDate.parse(data.getString("Mensualidad")));
+          } else {
+              clienteTO.setMensualidad(null);
+          }
+
+          clientes.add(clienteTO);
+      }
+
+    } catch (SQLException ex) {
+        System.out.println("error al cargar los datos" + ex.getMessage());
+    }
+
+    return clientes;
   }
 
   public void crearCliente(ClienteTO cliente) {
