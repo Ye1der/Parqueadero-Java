@@ -3,61 +3,41 @@ package Controllers;
 import Models.ClienteDAO;
 import TOs.ClienteTO;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ClienteCtrl {
     ClienteDAO cliente = new ClienteDAO();
 
-    private ArrayList<ClienteTO> consultar(boolean mensualidad) {
-        ResultSet data = cliente.consultar(mensualidad);
-        ArrayList<ClienteTO> clientes = new ArrayList<>();
-
+    public ArrayList<ClienteTO> consultar (boolean mensualidad, String nombre, String cedula) {
         try {
-            while (data.next()) {
-                ClienteTO clienteTO = new ClienteTO();
-
-                clienteTO.setIdCliente(data.getInt("IdCliente"));
-                clienteTO.setCedula(data.getInt("Cedula"));
-                clienteTO.setNombre(data.getString("Nombre"));
-
-                if (data.getString("Mensualidad") != null) {
-                    clienteTO.setMensualidad(LocalDate.parse(data.getString("Mensualidad")));
-                } else {
-                    clienteTO.setMensualidad(null);
-                }
-
-                clientes.add(clienteTO);
-            }
-
-        } catch (SQLException ex) {
-            System.out.println("error al cargar los datos" + ex.getMessage());
+            return cliente.consultar(mensualidad, nombre, cedula);
+        } catch (Exception e) {
+           System.out.println("Error al consultar los clientes: " + e.getMessage());
+           return null;
         }
-
-        return clientes;
-    }
-
-    public ArrayList<ClienteTO> listar(){
-        return consultar(false);
-    }
-
-    public ArrayList<ClienteTO> listarMensualidad() {
-        return consultar(true);
     }
 
     public void crearCliente(ClienteTO clienteTO){
-        cliente.crearCliente(clienteTO);
+        try {
+            cliente.crearCliente(clienteTO);
+        } catch (Exception e) {
+            System.out.println("Error al cliente: " + e.getMessage());
+        }
     }
 
     public void renovarMensualidad(int cedula) {
-        cliente.renovarMensualidad(cedula);
+        try {
+            cliente.renovarMensualidad(cedula);
+        } catch (Exception e) {
+            System.out.println("Error al renovar la mensualidad de el cliente " + cedula + ": " + e.getMessage());
+        }
     }
 
     public void eliminarCliente(int cedula) {
-        cliente.eliminarCliente(cedula);
+        try {
+            cliente.eliminarCliente(cedula);
+        } catch (Exception e) {
+            System.out.println("Error al eliminar el cliente " + cedula + ": " + e.getMessage());
+        }
     }
 }
