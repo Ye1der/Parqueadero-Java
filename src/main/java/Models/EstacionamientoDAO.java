@@ -1,12 +1,14 @@
 package Models;
 
 import DB.ConnectionDB;
+import TOs.EstacionamientoTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class EstacionamientoDAO {
-    public void actualizarEstado(boolean ocupar) {
+    public boolean actualizarEstado(boolean ocupar) {
         int id = -1;
         int buscar = 1;
         int actualizar = 0;
@@ -21,7 +23,9 @@ public class EstacionamientoDAO {
         ResultSet idResult = connection.consult(queryConsult);
 
         try {
-            if (idResult.next()) id = idResult.getInt("IdEstacionamiento");
+            if (idResult.next()) {
+                id = idResult.getInt("IdEstacionamiento");
+            } else return false;
         } catch (SQLException ex) {
             System.out.println("error al obtener un id de estacionamiento ocupado: " + ex.getMessage());
         }
@@ -29,26 +33,44 @@ public class EstacionamientoDAO {
         String queryVaciar = "update Estacionamiento set Ocupado = " + actualizar + " where IdEstacionamiento = " + id;
         connection.execute(queryVaciar);
         connection.closeConnection();
+        
+        return true;
     }
 
-    public void vaciar() {
-        actualizarEstado(false);
+    public boolean vaciar() {
+        return actualizarEstado(false);
     }
 
-    public  void ocupar() {
-        actualizarEstado(true);
+    public boolean ocupar() {
+        return actualizarEstado(true);
     }
 
-    public ResultSet listar(boolean ocupado) {
+    public ArrayList<EstacionamientoTO> listar(boolean ocupado) {
         int estado = 0;
         if (ocupado) estado = 1;
 
         String query = "select * from Estacionamiento where Ocupado = " + estado;
         ConnectionDB connection = new ConnectionDB();
-        ResultSet result = connection.consult(query);
+        ResultSet data = connection.consult(query);
+
+        ArrayList<EstacionamientoTO> estacionamientos = new ArrayList<>();
+
+        try {
+            while (data.next()) {
+                EstacionamientoTO estacionamientoTO = new EstacionamientoTO();
+                estacionamientoTO.setIdEstacionamiento(data.getInt("IdEstacionamiento"));
+                estacionamientoTO.setNumero(data.getInt("Numero"));
+                estacionamientoTO.setEstado(data.getInt("Ocupado") == 1);
+
+                estacionamientos.add(estacionamientoTO);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al listar los estacionamientos: " + ex.getMessage());
+        }
+
         connection.closeConnection();
 
-        return result;
+        return estacionamientos;
     }
 
     public void agregarEstacionamiento(int numero) {

@@ -30,7 +30,7 @@ public class FacturaDAO {
         ResultSet dataFactura = connection.consult(query);
 
         int id = 1;
-        int tiempoParqueado = -2;
+        Integer tiempoParqueado = null;
         LocalDateTime fechaEntrada = null;
         LocalDateTime fechaActual = LocalDateTime.now();
 
@@ -38,13 +38,14 @@ public class FacturaDAO {
             if (dataFactura.next()) {
                 id = dataFactura.getInt("IdFactura");
                 fechaEntrada = LocalDateTime.parse(dataFactura.getString("FechaEntrada"), formatter);
-                tiempoParqueado = (int) fechaActual.until(fechaEntrada, ChronoUnit.MINUTES);
+                tiempoParqueado = (int) fechaActual.until(fechaEntrada, ChronoUnit.SECONDS);
             } else return null;
         } catch (SQLException ex) {
             System.out.println("Error al obtener el id de la factura al generar la factura: " + ex.getMessage());
         }
 
-        tiempoParqueado = (int) Math.abs(Math.ceil((float) tiempoParqueado/30));
+        tiempoParqueado = (int) Math.abs(tiempoParqueado);
+        tiempoParqueado = (int) Math.ceil( (float) tiempoParqueado/60/30);
 
         int precio;
         if (tiempoParqueado < 48) precio = (int) tiempoParqueado * 500;

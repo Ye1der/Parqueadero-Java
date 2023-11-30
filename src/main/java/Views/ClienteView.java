@@ -6,7 +6,9 @@ package Views;
 
 import Controllers.ClienteCtrl;
 import TOs.ClienteTO;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -31,9 +33,9 @@ public class ClienteView extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         inputCC = new javax.swing.JTextField();
         btnMensualidad = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnCrear = new javax.swing.JButton();
+        btnRenovar = new javax.swing.JButton();
+        btnListar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
 
@@ -54,14 +56,24 @@ public class ClienteView extends javax.swing.JPanel {
         btnMensualidad.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         btnMensualidad.setText("Mensualidad");
 
-        jButton1.setText("Crear");
-
-        jButton2.setText("Renovar Mensualidad");
-
-        jButton3.setText("Listar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnCrear.setText("Crear");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnCrearActionPerformed(evt);
+            }
+        });
+
+        btnRenovar.setText("Renovar Mensualidad");
+        btnRenovar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRenovarActionPerformed(evt);
+            }
+        });
+
+        btnListar.setText("Listar");
+        btnListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarActionPerformed(evt);
             }
         });
 
@@ -106,11 +118,11 @@ public class ClienteView extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(114, 114, 114)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton2)
+                            .addComponent(btnRenovar)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(btnCrear)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3))))
+                                .addComponent(btnListar))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -130,18 +142,18 @@ public class ClienteView extends javax.swing.JPanel {
                     .addComponent(inputCC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMensualidad))
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btnRenovar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3))
+                    .addComponent(btnCrear)
+                    .addComponent(btnListar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
         ClienteCtrl cliente = new ClienteCtrl();
         ArrayList<ClienteTO> listaClientes = cliente.consultar(btnMensualidad.isSelected(), inputNombre.getText(), inputCC.getText());
         
@@ -151,7 +163,7 @@ public class ClienteView extends javax.swing.JPanel {
         for (ClienteTO clienteTo : listaClientes){
             modeloTabla.addRow(new Object[]{clienteTo.getNombre(), clienteTo.getCedula(), clienteTo.getMensualidad()});
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnListarActionPerformed
 
     private void inputCCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputCCKeyTyped
         int key = evt.getKeyChar();
@@ -163,14 +175,46 @@ public class ClienteView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_inputCCKeyTyped
 
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        ClienteTO clienteTo = new ClienteTO();
+        
+        if (!inputNombre.getText().equals("") || !inputCC.getText().equals("")) {
+            System.out.println("pasa por aqui");
+            clienteTo.setCedula(Integer.parseInt(inputCC.getText()));
+            clienteTo.setNombre(inputNombre.getText());
+            if (btnMensualidad.isSelected()) clienteTo.setMensualidad(LocalDate.now());
+            
+            ClienteCtrl cliente = new ClienteCtrl();
+            cliente.crearCliente(clienteTo);
+            
+            DefaultTableModel showRow = (DefaultTableModel) tabla.getModel();
+            showRow.setRowCount(0);
+            showRow.addRow(new Object[]{clienteTo.getNombre(), clienteTo.getCedula(), clienteTo.getMensualidad()});
+        } else {
+            JOptionPane.showMessageDialog(inputNombre, "Los campos Nombre y Cedula deben tener algun valor");
+        }
+        
+        
+    }//GEN-LAST:event_btnCrearActionPerformed
+
+    private void btnRenovarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenovarActionPerformed
+        if (!inputCC.getText().equals("")) {
+            ClienteCtrl cliente = new ClienteCtrl();
+            cliente.renovarMensualidad(Integer.parseInt(inputCC.getText()));
+            JOptionPane.showMessageDialog(inputNombre, "Mensualidad renovada con exito");
+        } else {
+            JOptionPane.showMessageDialog(inputNombre, "El canpo de cedula debe tener algun valor");
+        }
+    }//GEN-LAST:event_btnRenovarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCrear;
+    private javax.swing.JButton btnListar;
     private javax.swing.JCheckBox btnMensualidad;
+    private javax.swing.JButton btnRenovar;
     private javax.swing.JTextField inputCC;
     private javax.swing.JTextField inputNombre;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

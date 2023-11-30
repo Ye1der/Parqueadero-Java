@@ -1,8 +1,9 @@
 package Controllers;
 
 import Models.FacturaDAO;
+import TOs.FacturaTO;
 
-public class Factura {
+public class FacturaCtrl {
     FacturaDAO facturaDao = new FacturaDAO();
 
     public void horaEntrada (String placa) {
@@ -13,11 +14,12 @@ public class Factura {
         }
     }
 
-    public void generarFactura (String placa) {
+    public FacturaTO generarFactura (String placa) {
         try {
-            facturaDao.generarFactura(placa);
+            return facturaDao.generarFactura(placa);
         } catch (Exception ex) {
             System.out.println("Error al registrar la hora de entrada: " + ex.getMessage());
+            return null;
         }
     }
 }

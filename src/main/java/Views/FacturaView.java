@@ -4,6 +4,12 @@
  */
 package Views;
 
+import Controllers.FacturaCtrl;
+import TOs.FacturaTO;
+import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author yeider
@@ -26,32 +32,133 @@ public class FacturaView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        inputPlaca = new javax.swing.JTextField();
+        btnRegistrarHora = new javax.swing.JButton();
+        btnGnerarFactura = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaFactura = new javax.swing.JTable();
 
         setPreferredSize(new java.awt.Dimension(415, 274));
 
-        jLabel1.setText("Factura");
+        jLabel2.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        jLabel2.setText("Placa");
+
+        inputPlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputPlacaActionPerformed(evt);
+            }
+        });
+
+        btnRegistrarHora.setText("Registrar Hora Entrada");
+        btnRegistrarHora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarHoraActionPerformed(evt);
+            }
+        });
+
+        btnGnerarFactura.setText("Generar Factura");
+        btnGnerarFactura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGnerarFacturaActionPerformed(evt);
+            }
+        });
+
+        tablaFactura.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Precio", "PLaca", "Hora de Entrada", "Hora de salida"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tablaFactura);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(177, 177, 177)
-                .addComponent(jLabel1)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(209, 209, 209)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(191, 191, 191)
+                        .addComponent(inputPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(149, 149, 149)
+                        .addComponent(btnRegistrarHora))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(169, 169, 169)
+                        .addComponent(btnGnerarFactura))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(137, 137, 137)
-                .addComponent(jLabel1)
-                .addContainerGap(144, Short.MAX_VALUE))
+                .addGap(17, 17, 17)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(inputPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnRegistrarHora)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGnerarFactura)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(56, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void inputPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputPlacaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputPlacaActionPerformed
+
+    private void btnRegistrarHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarHoraActionPerformed
+        if (!inputPlaca.getText().equals("")) {
+            FacturaCtrl factura = new FacturaCtrl();
+            factura.horaEntrada(inputPlaca.getText());
+            JOptionPane.showMessageDialog(jScrollPane1, "Hora en entrada generada con exito");
+        } else {
+            JOptionPane.showMessageDialog(jScrollPane1, "Debe haber algun valor en el campo placa");
+        }
+    }//GEN-LAST:event_btnRegistrarHoraActionPerformed
+
+    private void btnGnerarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGnerarFacturaActionPerformed
+         if (!inputPlaca.getText().equals("")) {
+            FacturaCtrl factura = new FacturaCtrl();
+            FacturaTO facturaTo = factura.generarFactura(inputPlaca.getText());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            
+             DefaultTableModel newRow = (DefaultTableModel) tablaFactura.getModel();
+             newRow.setRowCount(0);
+             newRow.addRow(new Object[]{facturaTo.getPrecio(), facturaTo.getPlaca(), facturaTo.getFechaEntrada().format(formatter), facturaTo.getFechaSalida().format(formatter)});
+        } else {
+            JOptionPane.showMessageDialog(jScrollPane1, "Debe haber algun valor en el campo placa");
+        }
+    }//GEN-LAST:event_btnGnerarFacturaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnGnerarFactura;
+    private javax.swing.JButton btnRegistrarHora;
+    private javax.swing.JTextField inputPlaca;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tablaFactura;
     // End of variables declaration//GEN-END:variables
 }

@@ -19,7 +19,7 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
         
         FacturaView facturaView = new FacturaView();
-        facturaView.setSize(415, 526);
+        facturaView.setSize(531, 270);
         facturaView.setLocation(0,0);
         
         content.removeAll();
@@ -52,7 +52,7 @@ public class MainView extends javax.swing.JFrame {
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 415, Short.MAX_VALUE)
+            .addGap(0, 544, Short.MAX_VALUE)
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -78,6 +78,11 @@ public class MainView extends javax.swing.JFrame {
         menu.add(btnClientes);
 
         btnEstacionamientos.setText("Estacionamientos");
+        btnEstacionamientos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstacionamientosActionPerformed(evt);
+            }
+        });
         menu.add(btnEstacionamientos);
 
         MenuBar.add(menu);
@@ -88,7 +93,7 @@ public class MainView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,7 +105,7 @@ public class MainView extends javax.swing.JFrame {
 
     private void btnFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturasActionPerformed
         FacturaView facturaView = new FacturaView();
-        facturaView.setSize(415, 526);
+        facturaView.setSize(531, 270);
         facturaView.setLocation(0,0);
         
         content.removeAll();
@@ -119,6 +124,17 @@ public class MainView extends javax.swing.JFrame {
         content.revalidate();
         content.repaint();
     }//GEN-LAST:event_btnClientesActionPerformed
+
+    private void btnEstacionamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstacionamientosActionPerformed
+        EstacionamientoView estacionamiento = new EstacionamientoView();
+        estacionamiento.setSize(400, 418);
+        estacionamiento.setLocation(0,0);
+        
+        content.removeAll();
+        content.add(estacionamiento, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+    }//GEN-LAST:event_btnEstacionamientosActionPerformed
 
     /**
      * @param args the command line arguments
