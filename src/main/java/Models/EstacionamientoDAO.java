@@ -25,7 +25,8 @@ public class EstacionamientoDAO {
         try {
             if (idResult.next()) {
                 id = idResult.getInt("IdEstacionamiento");
-            } else return false;
+            } else
+                return false;
         } catch (SQLException ex) {
             System.out.println("error al obtener un id de estacionamiento ocupado: " + ex.getMessage());
         }
@@ -33,21 +34,14 @@ public class EstacionamientoDAO {
         String queryVaciar = "update Estacionamiento set Ocupado = " + actualizar + " where IdEstacionamiento = " + id;
         connection.execute(queryVaciar);
         connection.closeConnection();
-        
+
         return true;
-    }
-
-    public boolean vaciar() {
-        return actualizarEstado(false);
-    }
-
-    public boolean ocupar() {
-        return actualizarEstado(true);
     }
 
     public ArrayList<EstacionamientoTO> listar(boolean ocupado) {
         int estado = 0;
-        if (ocupado) estado = 1;
+        if (ocupado)
+            estado = 1;
 
         String query = "select * from Estacionamiento where Ocupado = " + estado;
         ConnectionDB connection = new ConnectionDB();

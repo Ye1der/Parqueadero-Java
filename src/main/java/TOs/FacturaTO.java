@@ -1,6 +1,5 @@
 package TOs;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class FacturaTO {
@@ -17,9 +16,9 @@ public class FacturaTO {
         this.FechaSalida = FechaSalida;
         this.placa = placa;
     }
-    
-    public FacturaTO(){
-        
+
+    public FacturaTO() {
+
     }
 
     public int getIdFactura() {

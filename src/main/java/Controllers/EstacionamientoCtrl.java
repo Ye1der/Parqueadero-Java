@@ -3,12 +3,7 @@ package Controllers;
 import Models.EstacionamientoDAO;
 import TOs.EstacionamientoTO;
 
-import java.sql.Array;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class EstacionamientoCtrl {
     EstacionamientoDAO estacionamiento = new EstacionamientoDAO();
@@ -31,15 +26,15 @@ public class EstacionamientoCtrl {
         return listar(true);
     }
 
-    public boolean vaciar(){
+    public boolean vaciar() {
         return estacionamiento.actualizarEstado(false);
     }
 
-    public boolean ocupar(){
+    public boolean ocupar() {
         return estacionamiento.actualizarEstado(true);
     }
 
-    public void agregar(int numero){
+    public void agregar(int numero) {
         estacionamiento.agregarEstacionamiento(numero);
     }
 

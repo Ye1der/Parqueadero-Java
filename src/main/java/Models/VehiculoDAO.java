@@ -26,7 +26,6 @@ public class VehiculoDAO {
                 VehiculoTO TOvehiculo = new VehiculoTO();
                 TOvehiculo.setIdVehiculo(dataVehiculos.getInt("IdVehiculo"));
                 TOvehiculo.setPlaca(dataVehiculos.getString("Placa"));
-                TOvehiculo.setModelo(dataVehiculos.getString("Modelo"));
                 TOvehiculo.setColor(dataVehiculos.getString("Color"));
                 TOvehiculo.setTipo(dataVehiculos.getString("Tipo"));
                 vehiculoTOs.add(TOvehiculo);
@@ -50,7 +49,6 @@ public class VehiculoDAO {
             
             TOvehiculo.setIdVehiculo(dataVehiculos.getInt("IdVehiculo"));
             TOvehiculo.setPlaca(dataVehiculos.getString("Placa"));
-            TOvehiculo.setModelo(dataVehiculos.getString("Modelo"));
             TOvehiculo.setColor(dataVehiculos.getString("Color"));
             TOvehiculo.setTipo(dataVehiculos.getString("Tipo"));
             
@@ -66,8 +64,8 @@ public class VehiculoDAO {
     public boolean InsertarVehiculo(VehiculoTO vehiculoTO){
         try {
             connection = new ConnectionDB();
-            String query = "insert into Vehiculo (Placa, Modelo, Color, Tipo) values('" + vehiculoTO.getPlaca() + 
-                    "', '" + vehiculoTO.getModelo() + "', '" + vehiculoTO.getColor() + "', '" + vehiculoTO.getTipo() + "';" ;
+            String query = "insert into Vehiculo (Placa, Color, Tipo) values('" + vehiculoTO.getPlaca() + 
+                    "', '" + vehiculoTO.getColor() + "', '" + vehiculoTO.getTipo() + "')" ;
             return connection.execute(query);
             
         } catch (RuntimeException ex) {

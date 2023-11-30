@@ -43,6 +43,7 @@ public class MainView extends javax.swing.JFrame {
         btnFacturas = new javax.swing.JMenuItem();
         btnClientes = new javax.swing.JMenuItem();
         btnEstacionamientos = new javax.swing.JMenuItem();
+        btnVehiculo = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +85,14 @@ public class MainView extends javax.swing.JFrame {
             }
         });
         menu.add(btnEstacionamientos);
+
+        btnVehiculo.setText("Vehiculos");
+        btnVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVehiculoActionPerformed(evt);
+            }
+        });
+        menu.add(btnVehiculo);
 
         MenuBar.add(menu);
 
@@ -136,6 +145,17 @@ public class MainView extends javax.swing.JFrame {
         content.repaint();
     }//GEN-LAST:event_btnEstacionamientosActionPerformed
 
+    private void btnVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculoActionPerformed
+        VehiculoView vehiculo = new VehiculoView();
+        vehiculo.setSize(400, 427);
+        vehiculo.setLocation(0,0);
+        
+        content.removeAll();
+        content.add(vehiculo, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+    }//GEN-LAST:event_btnVehiculoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -176,6 +196,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem btnClientes;
     private javax.swing.JMenuItem btnEstacionamientos;
     private javax.swing.JMenuItem btnFacturas;
+    private javax.swing.JMenuItem btnVehiculo;
     private javax.swing.JPanel content;
     private javax.swing.JMenu menu;
     // End of variables declaration//GEN-END:variables
